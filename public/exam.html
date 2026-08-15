@@ -1,0 +1,421 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Autonomous Assessment Workspace</title>
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Monaco Editor CDN -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/monaco-editor/0.38.0/min/vs/loader.min.js"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        mono: ['JetBrains Mono', 'monospace'],
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body {
+            background-color: #0b0f19;
+            color: #f3f4f6;
+        }
+        .glass-card {
+            background: rgba(23, 31, 48, 0.7);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+        }
+        #editor-container {
+            height: 380px;
+            border-radius: 12px;
+            overflow: hidden;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+    </style>
+</head>
+<body class="h-screen flex flex-col font-sans antialiased overflow-hidden">
+
+    <!-- Top Workspace Header -->
+    <header class="h-16 bg-slate-900/90 border-b border-white/10 px-6 flex items-center justify-between shrink-0">
+        <div class="flex items-center space-x-4">
+            <div class="w-8 h-8 rounded-lg bg-gradient-to-tr from-cyan-500 to-purple-600 flex items-center justify-center font-bold text-white text-sm">
+                💻
+            </div>
+            <div>
+                <h1 id="exam-title" class="text-sm font-bold text-white">Loading Assessment...</h1>
+                <p id="exam-subtitle" class="text-xs text-gray-400">Candidate Session</p>
+            </div>
+        </div>
+
+        <!-- Timer & Submit Actions -->
+        <div class="flex items-center space-x-6">
+            <div class="flex items-center space-x-2 bg-cyan-500/10 border border-cyan-500/30 text-cyan-300 px-3 py-1.5 rounded-full text-xs font-mono font-bold">
+                <span>⏱️ Time Remaining:</span>
+                <span id="timer-display">45:00</span>
+            </div>
+            <button id="btn-submit" onclick="submitExam()" class="bg-gradient-to-r from-emerald-500 to-teal-600 hover:from-emerald-400 hover:to-teal-500 text-white font-bold text-xs px-6 py-2 rounded-xl transition-all shadow-lg">
+                🚀 Submit Assessment
+            </button>
+        </div>
+    </header>
+
+    <!-- Main Question Workspace -->
+    <div class="flex-1 flex overflow-hidden">
+
+        <!-- Question Navigation Sidebar -->
+        <aside class="w-72 bg-slate-900/60 border-r border-white/10 p-4 shrink-0 flex flex-col justify-between">
+            <div>
+                <h2 class="text-xs font-bold text-gray-400 uppercase tracking-wider mb-4">Question Navigator</h2>
+                <div id="questions-nav" class="space-y-2">
+                    <!-- Dynamic Question Nav Pills -->
+                </div>
+            </div>
+            <div class="p-3 bg-slate-800/80 rounded-xl border border-white/5 text-xs text-gray-400">
+                <div class="font-semibold text-gray-200 mb-1">💡 Instructions</div>
+                Answer all questions and run sandbox test cases for code problems before submitting.
+            </div>
+        </aside>
+
+        <!-- Main Question Content & Sandbox Pane -->
+        <main class="flex-1 flex flex-col overflow-y-auto p-6 space-y-6">
+
+            <!-- Question Prompt Card -->
+            <div class="glass-card rounded-2xl p-6 border border-white/10">
+                <div class="flex items-center justify-between mb-3">
+                    <span id="question-badge" class="px-3 py-1 rounded-full text-xs font-bold bg-purple-500/20 text-purple-300 border border-purple-500/30 uppercase">
+                        Question 1 (MCQ)
+                    </span>
+                    <span id="question-rubric-badge" class="text-xs text-emerald-400 font-mono">
+                        Terac Verified Rubric
+                    </span>
+                </div>
+                <h2 id="question-prompt" class="text-base font-bold text-white mb-2">Select a question...</h2>
+                <p id="question-rubric" class="text-xs text-gray-400 italic mb-4"></p>
+
+                <!-- Dynamic Answer Input Container -->
+                <div id="answer-input-container" class="mt-4">
+                    <!-- MCQ or Short Answer Input inserted here -->
+                </div>
+            </div>
+
+            <!-- Code Editor & Sandbox Console (Only for Code Questions) -->
+            <div id="code-section" class="hidden flex-1 flex flex-col space-y-4">
+                <div class="flex items-center justify-between">
+                    <h3 class="text-xs font-bold text-gray-300 uppercase tracking-wider flex items-center">
+                        <span class="w-2.5 h-2.5 rounded-full bg-cyan-400 mr-2"></span> Python Solution Code Editor
+                    </h3>
+                    <button onclick="runSandboxTest()" class="bg-cyan-500/20 hover:bg-cyan-500/30 text-cyan-300 border border-cyan-500/30 font-bold text-xs px-4 py-1.5 rounded-lg flex items-center space-x-2 transition-all">
+                        <span>▶️ Run Sandbox Tests (Superserve)</span>
+                    </button>
+                </div>
+
+                <!-- Monaco Editor Container -->
+                <div id="editor-container"></div>
+
+                <!-- Sandbox Execution Output Console -->
+                <div class="bg-slate-950 rounded-2xl p-4 border border-white/10 font-mono text-xs text-gray-300">
+                    <div class="flex items-center justify-between text-gray-400 border-b border-white/10 pb-2 mb-2">
+                        <span class="font-bold text-xs uppercase text-cyan-400">Superserve Ephemeral Container Console</span>
+                        <span id="sandbox-execution-time" class="text-[10px] text-gray-500">0ms</span>
+                    </div>
+                    <pre id="sandbox-console" class="whitespace-pre-wrap max-h-36 overflow-y-auto text-gray-400">Ready to execute solution against verified test cases...</pre>
+                </div>
+            </div>
+
+        </main>
+    </div>
+
+    <script>
+        let currentExam = null;
+        let currentQuestionIndex = 0;
+        let candidateAnswers = {};
+        let monacoEditor = null;
+        let timerInterval = null;
+        let timeRemainingSec = 2700; // 45 mins default
+
+        // Extract token and exam_id from URL
+        const pathParts = window.location.pathname.split('/');
+        const examId = pathParts[pathParts.length - 1];
+        const urlParams = new URLSearchParams(window.location.search);
+        const candidateToken = urlParams.get('token') || 'demo_token';
+
+        // Load Monaco Editor
+        require.config({ paths: { 'vs': 'https://cdnjs.cloudflare.com/ajax/libs/monaco-editor/0.38.0/min/vs' }});
+        require(['vs/editor/editor.main'], function() {
+            monacoEditor = monaco.editor.create(document.getElementById('editor-container'), {
+                value: 'def solution(n):\n    # Write python solution here\n    pass\n',
+                language: 'python',
+                theme: 'vs-dark',
+                automaticLayout: true,
+                fontSize: 13,
+                minimap: { enabled: false }
+            });
+
+            monacoEditor.onDidChangeModelContent(() => {
+                if (currentExam && currentExam.questions[currentQuestionIndex]) {
+                    const q = currentExam.questions[currentQuestionIndex];
+                    if (q.type === 'code') {
+                        candidateAnswers[q.id] = monacoEditor.getValue();
+                    }
+                }
+            });
+
+            initExamWorkspace();
+        });
+
+        async function initExamWorkspace() {
+            try {
+                const res = await fetch(`/api/exams/${examId}?token=${candidateToken}`);
+                if (!res.ok) {
+                    const errData = await res.json().catch(() => ({}));
+                    showPaymentRequiredScreen(errData.detail || "Stripe Payment Required to view assessment.");
+                    return;
+                }
+                currentExam = await res.json();
+
+                if (currentExam.status === 'VERIFIED') {
+                    showWaitingForStartScreen(currentExam, examId, candidateToken);
+                    return;
+                }
+
+                document.getElementById('exam-title').innerText = currentExam.title;
+                document.getElementById('exam-subtitle').innerText = `Topic: ${currentExam.topic} | Time Limit: ${currentExam.time_limit}m`;
+                
+                if (currentExam.results_released) {
+                    const header = document.querySelector('header');
+                    const banner = document.createElement('div');
+                    banner.className = "bg-purple-600/90 text-white font-bold text-xs px-6 py-2 flex items-center justify-between shrink-0";
+                    banner.innerHTML = `
+                        <span>🏆 Official Assessment Results & Ranks Released by Organizer! Check your registered phone for SMS notification report.</span>
+                        <a href="/candidate" class="underline text-purple-200 hover:text-white">Back to Candidate Catalog</a>
+                    `;
+                    header.parentNode.insertBefore(banner, header.nextSibling);
+                }
+
+                timeRemainingSec = currentExam.time_limit * 60;
+                startTimer();
+                renderQuestionsNav();
+                loadQuestion(0);
+
+            } catch (e) {
+                console.error("Failed to load exam:", e);
+            }
+        }
+
+        function showPaymentRequiredScreen(message) {
+            document.body.className = "h-screen w-screen flex flex-col items-center justify-center p-6 bg-slate-950 text-white font-sans text-center";
+            document.body.innerHTML = `
+                <div class="max-w-lg glass-card rounded-3xl p-8 border border-rose-500/40 space-y-6 shadow-2xl">
+                    <div class="w-16 h-16 rounded-2xl bg-gradient-to-tr from-rose-500 to-amber-500 flex items-center justify-center text-3xl mx-auto shadow-lg animate-pulse">
+                        💳
+                    </div>
+                    <h2 class="text-2xl font-extrabold text-white">Stripe Payment Required</h2>
+                    <p class="text-sm text-gray-300">
+                        ${message}
+                    </p>
+                    <div class="p-4 rounded-2xl bg-slate-900/90 border border-white/10 text-xs text-gray-400 space-y-2 text-left">
+                        <div class="flex items-center space-x-2 text-amber-300 font-semibold">
+                            <span>🔒 Access Token Protection</span>
+                        </div>
+                        <p>Navigating directly to an assessment workspace without completing candidate registration and Stripe payment is restricted.</p>
+                    </div>
+                    <div class="pt-2 flex flex-col space-y-3">
+                        <a href="/candidate" class="w-full glow-btn bg-gradient-to-r from-emerald-500 to-teal-600 text-white font-bold py-3 px-4 rounded-xl text-xs flex items-center justify-center space-x-2">
+                            <span>🎓 Return to Candidate Catalog & Pay via Stripe</span>
+                        </a>
+                    </div>
+                </div>
+            `;
+        }
+
+        function showWaitingForStartScreen(exam, examId, candidateToken) {
+            document.body.className = "h-screen w-screen flex flex-col items-center justify-center p-6 bg-slate-950 text-white font-sans text-center";
+            document.body.innerHTML = `
+                <div class="max-w-lg glass-card rounded-3xl p-8 border border-emerald-500/30 space-y-6 shadow-2xl">
+                    <div class="w-16 h-16 rounded-2xl bg-gradient-to-tr from-emerald-500 to-teal-400 flex items-center justify-center text-3xl mx-auto shadow-lg animate-bounce">
+                        ⏳
+                    </div>
+                    <h2 class="text-2xl font-extrabold text-white">Exam Has Not Started Yet</h2>
+                    <p class="text-sm text-gray-300">
+                        The organizer has published <strong class="text-emerald-400">${exam.title}</strong>, but has not clicked <strong>"Start Exam"</strong> yet.
+                    </p>
+                    <div class="p-4 rounded-2xl bg-slate-900/90 border border-white/10 text-xs text-gray-400 space-y-2 text-left">
+                        <div class="flex items-center space-x-2 text-emerald-300 font-semibold">
+                            <span>📱 Registered Candidate SMS Pass</span>
+                        </div>
+                        <p>You will receive an official SMS notification on your registered phone number as soon as the organizer clicks Start!</p>
+                    </div>
+                    <div class="flex items-center justify-center space-x-2 text-xs text-cyan-400 pt-2">
+                        <svg class="animate-spin h-4 w-4" fill="none" viewBox="0 0 24 24">
+                            <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                            <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                        </svg>
+                        <span>Listening for live organizer Start signal...</span>
+                    </div>
+                </div>
+            `;
+
+            const pollStatusInterval = setInterval(async () => {
+                try {
+                    const checkRes = await fetch(`/api/exams/${examId}?token=${candidateToken}`);
+                    if (checkRes.ok) {
+                        const updatedExam = await checkRes.json();
+                        if (updatedExam.status !== 'VERIFIED') {
+                            clearInterval(pollStatusInterval);
+                            location.reload();
+                        }
+                    }
+                } catch (e) {}
+            }, 2500);
+        }
+
+        function startTimer() {
+            timerInterval = setInterval(() => {
+                if (timeRemainingSec <= 0) {
+                    clearInterval(timerInterval);
+                    alert("⏱️ Time is up! Submitting your assessment automatically.");
+                    submitExam();
+                    return;
+                }
+                timeRemainingSec--;
+                const mins = Math.floor(timeRemainingSec / 60);
+                const secs = timeRemainingSec % 60;
+                document.getElementById('timer-display').innerText = `${mins.toString().padStart(2,'0')}:${secs.toString().padStart(2,'0')}`;
+            }, 1000);
+        }
+
+        function renderQuestionsNav() {
+            const container = document.getElementById('questions-nav');
+            container.innerHTML = currentExam.questions.map((q, idx) => `
+                <button onclick="loadQuestion(${idx})" id="nav-btn-${idx}" 
+                    class="w-full text-left px-4 py-3 rounded-xl text-xs font-semibold flex items-center justify-between transition-all ${
+                        idx === 0 ? 'bg-cyan-500/20 text-cyan-300 border border-cyan-500/30' : 'bg-slate-800/60 text-gray-400 hover:bg-slate-800'
+                    }">
+                    <span>Q${idx + 1}: ${q.type.toUpperCase()}</span>
+                    <span id="status-pill-${q.id}" class="w-2 h-2 rounded-full ${candidateAnswers[q.id] ? 'bg-emerald-400' : 'bg-gray-600'}"></span>
+                </button>
+            `).join('');
+        }
+
+        function loadQuestion(idx) {
+            currentQuestionIndex = idx;
+            const q = currentExam.questions[idx];
+
+            // Update nav active styling
+            currentExam.questions.forEach((_, i) => {
+                const btn = document.getElementById(`nav-btn-${i}`);
+                if (i === idx) {
+                    btn.className = "w-full text-left px-4 py-3 rounded-xl text-xs font-semibold flex items-center justify-between bg-cyan-500/20 text-cyan-300 border border-cyan-500/30 transition-all";
+                } else {
+                    btn.className = "w-full text-left px-4 py-3 rounded-xl text-xs font-semibold flex items-center justify-between bg-slate-800/60 text-gray-400 hover:bg-slate-800 transition-all";
+                }
+            });
+
+            document.getElementById('question-badge').innerText = `Question ${idx + 1} (${q.type.toUpperCase()})`;
+            document.getElementById('question-prompt').innerText = q.prompt;
+            document.getElementById('question-rubric').innerText = q.rubric ? `Rubric: ${q.rubric}` : '';
+
+            const inputContainer = document.getElementById('answer-input-container');
+            const codeSection = document.getElementById('code-section');
+
+            if (q.type === 'mcq') {
+                codeSection.classList.add('hidden');
+                const selectedVal = candidateAnswers[q.id] || '';
+                inputContainer.innerHTML = (q.options || []).map((opt, oIdx) => {
+                    const optLetter = String.fromCharCode(65 + oIdx);
+                    return `
+                        <label class="block p-3.5 mb-2 rounded-xl bg-slate-900/80 border border-white/10 hover:border-cyan-500/50 cursor-pointer transition-all">
+                            <input type="radio" name="mcq-choice" value="${optLetter}" ${selectedVal === optLetter ? 'checked' : ''} onchange="saveAnswer('${q.id}', '${optLetter}')" class="mr-3 text-cyan-500">
+                            <span class="text-sm text-gray-200">${opt}</span>
+                        </label>
+                    `;
+                }).join('');
+
+            } else if (q.type === 'short_answer') {
+                codeSection.classList.add('hidden');
+                const val = candidateAnswers[q.id] || '';
+                inputContainer.innerHTML = `
+                    <input type="text" value="${val}" oninput="saveAnswer('${q.id}', this.value)" placeholder="Type your answer string..." 
+                        class="w-full bg-slate-900/80 border border-white/10 rounded-xl px-4 py-3 text-sm text-white placeholder-gray-500 focus:outline-none focus:border-cyan-400">
+                `;
+
+            } else if (q.type === 'code') {
+                inputContainer.innerHTML = '';
+                codeSection.classList.remove('hidden');
+                const existingCode = candidateAnswers[q.id] || 'def solution(n):\n    # Write python code solution here\n    if n <= 1:\n        return 1\n    return n * solution(n - 1)\n';
+                if (monacoEditor) {
+                    monacoEditor.setValue(existingCode);
+                }
+            }
+        }
+
+        function saveAnswer(questionId, val) {
+            candidateAnswers[questionId] = val;
+            const statusPill = document.getElementById(`status-pill-${questionId}`);
+            if (statusPill) statusPill.className = "w-2 h-2 rounded-full bg-emerald-400";
+        }
+
+        async function runSandboxTest() {
+            const q = currentExam.questions[currentQuestionIndex];
+            if (q.type !== 'code') return;
+
+            const code = monacoEditor.getValue();
+            saveAnswer(q.id, code);
+
+            const consoleBox = document.getElementById('sandbox-console');
+            consoleBox.innerText = "Provisioning Superserve Ephemeral Container & running test suite...";
+
+            try {
+                const res = await fetch(`/api/exams/${examId}/run-test`, {
+                    method: 'POST',
+                    headers: {'Content-Type': 'application/json'},
+                    body: JSON.stringify({ question_id: q.id, code })
+                });
+                const data = await res.json();
+                document.getElementById('sandbox-execution-time').innerText = `${data.execution_time_ms}ms`;
+                consoleBox.innerText = `Result: ${data.passed_count}/${data.total_tests} Test Cases Passed\n\nSTDOUT:\n${data.stdout}\n\nSTDERR:\n${data.stderr || 'None'}`;
+            } catch (e) {
+                consoleBox.innerText = "Sandbox execution error: " + e;
+            }
+        }
+
+        async function submitExam() {
+            if (!confirm("Are you sure you want to submit your final assessment answers?")) return;
+
+            // Gather final code if on code question
+            const q = currentExam.questions[currentQuestionIndex];
+            if (q.type === 'code' && monacoEditor) {
+                candidateAnswers[q.id] = monacoEditor.getValue();
+            }
+
+            try {
+                const res = await fetch(`/api/exams/${examId}/submit`, {
+                    method: 'POST',
+                    headers: {'Content-Type': 'application/json'},
+                    body: JSON.stringify({
+                        candidate_token: candidateToken,
+                        answers: candidateAnswers
+                    })
+                });
+                const data = await res.json();
+                clearInterval(timerInterval);
+
+                alert(`🎉 Assessment Evaluated Successfully!\n\nScore: ${data.score}%\nQuestions Passed: ${data.passed_questions}/${data.total_questions}`);
+                window.location.href = '/';
+            } catch (e) {
+                alert("Submission failed: " + e);
+            }
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Candidate Assessment Portal | Zero-Human Eval</title>
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        mono: ['JetBrains Mono', 'monospace'],
+                    },
+                    colors: {
+                        darkbg: '#090d16',
+                        cardbg: 'rgba(23, 31, 48, 0.75)',
+                        brand: {
+                            cyan: '#06b6d4',
+                            purple: '#8b5cf6',
+                            emerald: '#10b981'
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body {
+            background-color: #090d16;
+            background-image: 
+                radial-gradient(at 10% 10%, rgba(6, 182, 212, 0.12) 0px, transparent 50%),
+                radial-gradient(at 90% 90%, rgba(139, 92, 246, 0.12) 0px, transparent 50%);
+            background-attachment: fixed;
+            color: #f3f4f6;
+        }
+        .glass-card {
+            background: rgba(23, 31, 48, 0.65);
+            backdrop-filter: blur(16px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+        }
+        .glow-btn {
+            box-shadow: 0 0 20px rgba(6, 182, 212, 0.35);
+            transition: all 0.25s ease-in-out;
+        }
+        .glow-btn:hover {
+            box-shadow: 0 0 30px rgba(6, 182, 212, 0.6);
+            transform: translateY(-1px);
+        }
+    </style>
+    <!-- Google Identity Services SDK -->
+    <script src="https://accounts.google.com/gsi/client" async defer></script>
+</head>
+<body class="min-h-screen font-sans antialiased pb-12">
+
+    <!-- Header Navigation -->
+    <header class="border-b border-white/10 glass-card sticky top-0 z-50">
+        <div class="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
+            <div class="flex items-center space-x-3">
+                <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-brand-cyan to-brand-purple flex items-center justify-center font-bold text-white text-xl shadow-lg">
+                    🎓
+                </div>
+                <div>
+                    <h1 class="text-xl font-extrabold tracking-tight bg-gradient-to-r from-cyan-400 via-purple-400 to-emerald-400 bg-clip-text text-transparent">
+                        ZeroHuman<span class="text-white font-light"> Portal</span>
+                    </h1>
+                    <p class="text-xs text-gray-400">Candidate Assessment Catalog & Instant Access</p>
+                </div>
+            </div>
+            
+            <div class="flex items-center space-x-4">
+                <div id="google-profile-container">
+                    <button onclick="triggerGoogleLogin()" class="px-4 py-2 rounded-xl text-xs font-bold bg-white text-slate-900 hover:bg-gray-100 transition-all flex items-center space-x-2 shadow-lg">
+                        <svg class="w-4 h-4" viewBox="0 0 24 24">
+                            <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/>
+                            <path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/>
+                            <path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.06H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.94l2.85-2.22.81-.63z"/>
+                            <path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.06l3.66 2.84c.87-2.6 3.3-4.52 6.16-4.52z"/>
+                        </svg>
+                        <span>Sign in with Google</span>
+                    </button>
+                </div>
+                <a href="/organizer" class="text-xs font-semibold text-gray-400 hover:text-cyan-400 transition-all flex items-center space-x-1">
+                    <span>⚡ Switch to Organizer View</span>
+                </a>
+            </div>
+        </div>
+    </header>
+
+    <main class="max-w-7xl mx-auto px-6 pt-8 space-y-8">
+
+        <!-- Candidate Welcome Banner -->
+        <section class="glass-card rounded-3xl p-8 border border-cyan-500/20 relative overflow-hidden">
+            <div class="relative z-10 max-w-3xl space-y-3">
+                <span class="px-3 py-1 rounded-full text-xs font-bold bg-cyan-500/20 text-cyan-300 border border-cyan-500/30 uppercase tracking-wider">
+                    Verified Technical Competitions
+                </span>
+                <h2 class="text-3xl font-extrabold text-white tracking-tight">
+                    Take Terac-Verified Technical Assessments & Earn Instant Leaderboard Ranks
+                </h2>
+                <p class="text-sm text-gray-300">
+                    Sign up below with your email and phone number. Upon paying the $15 Stripe fee, you will receive an instant SMS access pass via Linq to complete your assessment under strict timed execution.
+                </p>
+            </div>
+            <div class="absolute -right-10 -bottom-10 w-64 h-64 bg-cyan-500/10 rounded-full blur-3xl pointer-events-none"></div>
+        </section>
+
+        <!-- Candidate Registration & Exam Catalog Section -->
+        <section class="space-y-6">
+            <div class="flex items-center justify-between">
+                <h3 class="text-xl font-bold text-white flex items-center space-x-2">
+                    <span class="w-3 h-3 rounded-full bg-emerald-400"></span>
+                    <span>Available Active Assessments</span>
+                </h3>
+                <span id="catalog-count-badge" class="px-3 py-1 rounded-full text-xs font-bold bg-slate-800 text-gray-300">
+                    Loading assessments...
+                </span>
+            </div>
+
+            <!-- Candidate Information Input Bar -->
+            <div class="glass-card rounded-2xl p-5 border border-white/10 grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div>
+                    <label class="block text-xs font-semibold text-gray-300 uppercase mb-2">Candidate Email Address</label>
+                    <input type="email" id="candidate-email" value="candidate@example.com" placeholder="your.name@example.com" 
+                        class="w-full bg-slate-900/80 border border-white/10 rounded-xl px-4 py-3 text-sm text-white focus:outline-none focus:border-cyan-400 transition-all">
+                </div>
+                <div>
+                    <label class="block text-xs font-semibold text-gray-300 uppercase mb-2">Candidate Phone Number (for SMS Pass)</label>
+                    <input type="tel" id="candidate-phone" value="+15550199" placeholder="+1 (555) 000-0000" 
+                        class="w-full bg-slate-900/80 border border-white/10 rounded-xl px-4 py-3 text-sm text-white focus:outline-none focus:border-cyan-400 transition-all">
+                </div>
+            </div>
+
+            <!-- Exam Cards Catalog Container -->
+            <div id="candidate-exams-container" class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <!-- Populated Dynamically -->
+            </div>
+        </section>
+
+    </main>
+
+    <script>
+        async function fetchCandidateCatalog() {
+            try {
+                const res = await fetch('/api/candidate/catalog');
+                const data = await res.json();
+                
+                const exams = data.exams || [];
+                document.getElementById('catalog-count-badge').innerText = `${exams.length} Assessment(s) Available`;
+                renderCatalog(exams);
+            } catch (err) {
+                console.error("Error fetching catalog:", err);
+            }
+        }
+
+        function renderCatalog(exams) {
+            const container = document.getElementById('candidate-exams-container');
+            if (!exams || exams.length === 0) {
+                container.innerHTML = `
+                    <div class="col-span-2 text-center py-12 glass-card rounded-3xl text-gray-400 text-sm">
+                        No active assessments available at the moment. Please check back shortly!
+                    </div>`;
+                return;
+            }
+
+            container.innerHTML = exams.map(e => `
+                <div class="glass-card rounded-3xl p-6 border border-white/10 flex flex-col justify-between space-y-5 hover:border-cyan-500/40 transition-all">
+                    <div class="space-y-3">
+                        <div class="flex items-center justify-between">
+                            <span class="px-3 py-1 rounded-full text-xs font-bold bg-cyan-500/20 text-cyan-300 border border-cyan-500/30 uppercase">
+                                ${e.topic}
+                            </span>
+                            <span class="text-lg font-mono font-extrabold text-emerald-400">
+                                $${((e.price_cents || 1500) / 100).toFixed(2)} USD
+                            </span>
+                        </div>
+                        <h4 class="text-lg font-bold text-white">${e.title}</h4>
+                        <div class="text-xs text-gray-400 flex items-center space-x-4">
+                            <span>Target: ${e.level}</span>
+                            <span>Duration: ${e.time_limit} mins</span>
+                            <span>Questions: ${e.questions.length}</span>
+                        </div>
+                        ${e.results_released ? `
+                            <div class="p-3 rounded-xl bg-purple-500/10 border border-purple-500/30 text-purple-300 text-xs font-semibold flex items-center space-x-2">
+                                <span>📢 Official Results & Leaderboard Released by Organizer!</span>
+                            </div>
+                        ` : ''}
+                    </div>
+
+                    <div class="pt-4 border-t border-white/10">
+                        <button onclick="registerAndPay('${e.id}', '${e.stripe_payment_link || ''}', ${e.price_cents || 1500})" class="w-full glow-btn bg-gradient-to-r from-emerald-500 to-teal-600 text-white font-bold py-3 px-4 rounded-xl text-xs flex items-center justify-center space-x-2">
+                            <span>💳 Pay $${((e.price_cents || 1500) / 100).toFixed(2)} via Sandbox Payment & Start Exam</span>
+                        </button>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        async function registerAndPay(examId, stripeLink, priceCents) {
+            const email = document.getElementById('candidate-email').value;
+            const phone_number = document.getElementById('candidate-phone').value;
+
+            if (!email) {
+                alert("Please enter a valid candidate email address.");
+                return;
+            }
+
+            const formattedPrice = (priceCents / 100).toFixed(2);
+            if (!confirm(`💳 Sandbox Payment Gateway\n\nAuthorize test charge of $${formattedPrice} USD for exam access?\n\nCandidate Email: ${email}\nPhone Number: ${phone_number || 'N/A'}`)) {
+                return;
+            }
+
+            try {
+                // Execute instant Sandbox Payment Settlement & Token Authorization
+                const res = await fetch(`/api/candidate/sandbox-pay`, {
+                    method: 'POST',
+                    headers: {'Content-Type': 'application/json'},
+                    body: JSON.stringify({ exam_id: examId, email, phone_number })
+                });
+                const data = await res.json();
+
+                if (data.status === "success") {
+                    alert(`✅ Sandbox Payment Authorized!\n\nReceipt ID: ${data.receipt_id}\nIssued Token: ${data.candidate_token}\nDispatched Linq SMS access pass!`);
+                    window.location.href = data.access_url;
+                } else {
+                    alert("Sandbox Payment error: " + (data.message || "Unknown error"));
+                }
+            } catch (err) {
+                alert("Sandbox Payment failed: " + err);
+            }
+        }
+
+        function triggerGoogleLogin() {
+            const email = prompt("Enter Google Account Email for instant Single Sign-On:", "candidate.google@example.com");
+            if (!email) return;
+            
+            fetch('/api/auth/google', {
+                method: 'POST',
+                headers: {'Content-Type': 'application/json'},
+                body: JSON.stringify({ email, name: email.split('@')[0], picture: `https://api.dicebear.com/7.x/avataaars/svg?seed=${email}` })
+            }).then(r => r.json()).then(data => {
+                if (data.user) {
+                    localStorage.setItem('google_user', JSON.stringify(data.user));
+                    document.getElementById('candidate-email').value = data.user.email;
+                    updateGoogleUserUI(data.user);
+                }
+            });
+        }
+
+        function updateGoogleUserUI(user) {
+            const container = document.getElementById('google-profile-container');
+            container.innerHTML = `
+                <div class="flex items-center space-x-2 bg-slate-800/80 border border-cyan-500/30 px-3 py-1.5 rounded-xl text-xs">
+                    <img src="${user.picture}" class="w-5 h-5 rounded-full border border-cyan-400">
+                    <span class="font-bold text-cyan-300">${user.email}</span>
+                    <span class="text-emerald-400 text-[10px] font-mono">✓ Google Verified</span>
+                </div>
+            `;
+        }
+
+        const savedGoogleUser = localStorage.getItem('google_user');
+        if (savedGoogleUser) {
+            try {
+                const user = JSON.parse(savedGoogleUser);
+                document.getElementById('candidate-email').value = user.email;
+                updateGoogleUserUI(user);
+            } catch (e) {}
+        }
+
+        fetchCandidateCatalog();
+    </script>
+</body>
+</html>

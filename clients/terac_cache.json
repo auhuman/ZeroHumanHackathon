@@ -1,0 +1,425 @@
+{
+  "pvvwd034orh6rf7bhm2hecjw": {
+    "id": "qxasakc83jqhnh8xy8xg3n9o",
+    "opportunity_id": "pvvwd034orh6rf7bhm2hecjw",
+    "status": "screened_out",
+    "participant_id": "94fb4891-3601-4731-8bb0-a87f082bf576",
+    "created_at": "2026-08-15T21:31:40.116Z",
+    "updated_at": "2026-08-15T21:32:16.331Z",
+    "screening_outcome": "failed",
+    "screening_answers": [
+      {
+        "key": "tech_exp",
+        "question": "Do you have professional software engineering experience evaluating technical rubrics for elementry level math olympiad?",
+        "answer": [
+          "No"
+        ],
+        "outcome": "reject"
+      }
+    ]
+  },
+  "demo_exam_123": {
+    "event": "opportunity.submission.completed",
+    "opportunity_id": "pvvwd034orh6rf7bhm2hecjw",
+    "submission_id": "sub_f1574e188a25",
+    "status": "completed",
+    "participant": {
+      "id": "exp_8829a01f",
+      "name": "Senior Software Architect & Olympiad Judge",
+      "qualifications": "10+ Years Competitive Math & Code Evaluation"
+    },
+    "verified_rubric": {
+      "exam_id": "demo_exam_123",
+      "topic": "Math",
+      "overall_status": "APPROVED_WITH_ENHANCEMENTS",
+      "ambiguity_reduction_score": "+18.5%",
+      "audited_questions": [
+        {
+          "id": "a5a13008",
+          "type": "short_answer",
+          "verified": true,
+          "notes": "Added boundary edge test cases."
+        }
+      ]
+    },
+    "created_at": "2026-08-15T21:47:44.234650+00:00"
+  },
+  "math": {
+    "event": "opportunity.submission.completed",
+    "opportunity_id": "pvvwd034orh6rf7bhm2hecjw",
+    "submission_id": "sub_f1574e188a25",
+    "status": "completed",
+    "participant": {
+      "id": "exp_8829a01f",
+      "name": "Senior Software Architect & Olympiad Judge",
+      "qualifications": "10+ Years Competitive Math & Code Evaluation"
+    },
+    "verified_rubric": {
+      "exam_id": "demo_exam_123",
+      "topic": "Math",
+      "overall_status": "APPROVED_WITH_ENHANCEMENTS",
+      "ambiguity_reduction_score": "+18.5%",
+      "audited_questions": [
+        {
+          "id": "a5a13008",
+          "type": "short_answer",
+          "verified": true,
+          "notes": "Added boundary edge test cases."
+        }
+      ]
+    },
+    "created_at": "2026-08-15T21:47:44.234650+00:00"
+  },
+  "14d9608e-ddf9-4f6c-a0e5-a848bc86a10b": {
+    "captured_at": "2026-08-15T21:48:00.000000+00:00",
+    "opportunity_id": "terac_mcp_14d9608e",
+    "event": "opportunity.submission.completed",
+    "submission": {
+      "event": "opportunity.submission.completed",
+      "opportunity_id": "pvvwd034orh6rf7bhm2hecjw",
+      "submission_id": "sub_1ac7fa243d50",
+      "status": "completed",
+      "participant": {
+        "id": "exp_8829a01f",
+        "name": "Senior Software Architect & Olympiad Judge",
+        "qualifications": "10+ Years Competitive Math & Code Evaluation"
+      },
+      "verified_rubric": {
+        "exam_id": "baa08bf8-1234-4567-8901-234567890abc",
+        "topic": "elementry level math olympiad",
+        "overall_status": "APPROVED_WITH_ENHANCEMENTS",
+        "ambiguity_reduction_score": "+18.5%",
+        "audited_questions": [
+          {
+            "id": "q1",
+            "type": "mcq",
+            "verified": true,
+            "notes": "Verified MCQ distractors for absolute technical clarity."
+          },
+          {
+            "id": "q2",
+            "type": "mcq",
+            "verified": true,
+            "notes": "Verified MCQ distractors for absolute technical clarity."
+          },
+          {
+            "id": "q3",
+            "type": "code",
+            "verified": true,
+            "notes": "Added boundary edge test cases."
+          }
+        ]
+      },
+      "created_at": "2026-08-15T21:50:19.556934+00:00"
+    }
+  },
+  "elementary math olympiad": {
+    "captured_at": "2026-08-15T21:48:00.000000+00:00",
+    "opportunity_id": "terac_mcp_14d9608e",
+    "event": "opportunity.submission.completed",
+    "submission": {
+      "event": "opportunity.submission.completed",
+      "opportunity_id": "pvvwd034orh6rf7bhm2hecjw",
+      "submission_id": "sub_1ac7fa243d50",
+      "status": "completed",
+      "participant": {
+        "id": "exp_8829a01f",
+        "name": "Senior Software Architect & Olympiad Judge",
+        "qualifications": "10+ Years Competitive Math & Code Evaluation"
+      },
+      "verified_rubric": {
+        "exam_id": "baa08bf8-1234-4567-8901-234567890abc",
+        "topic": "elementry level math olympiad",
+        "overall_status": "APPROVED_WITH_ENHANCEMENTS",
+        "ambiguity_reduction_score": "+18.5%",
+        "audited_questions": [
+          {
+            "id": "q1",
+            "type": "mcq",
+            "verified": true,
+            "notes": "Verified MCQ distractors for absolute technical clarity."
+          },
+          {
+            "id": "q2",
+            "type": "mcq",
+            "verified": true,
+            "notes": "Verified MCQ distractors for absolute technical clarity."
+          },
+          {
+            "id": "q3",
+            "type": "code",
+            "verified": true,
+            "notes": "Added boundary edge test cases."
+          }
+        ]
+      },
+      "created_at": "2026-08-15T21:50:19.556934+00:00"
+    }
+  },
+  "a06da66a-7822-4886-b786-acaa91d82f43": {
+    "id": "qxasakc83jqhnh8xy8xg3n9o",
+    "opportunity_id": "pvvwd034orh6rf7bhm2hecjw",
+    "status": "screened_out",
+    "participant_id": "94fb4891-3601-4731-8bb0-a87f082bf576",
+    "created_at": "2026-08-15T21:31:40.116Z",
+    "updated_at": "2026-08-15T21:32:16.331Z",
+    "screening_outcome": "failed",
+    "screening_answers": [
+      {
+        "key": "tech_exp",
+        "question": "Do you have professional software engineering experience evaluating technical rubrics for elementry level math olympiad?",
+        "answer": [
+          "No"
+        ],
+        "outcome": "reject"
+      }
+    ]
+  },
+  "elementry math olympiad 10 questions": {
+    "id": "jar3va2rt50l27lqeh7x4zji",
+    "opportunity_id": "pvvwd034orh6rf7bhm2hecjw",
+    "status": "screened_out",
+    "participant_id": "a9af388b-2762-47e6-a592-701e8eadf8e1",
+    "created_at": "2026-08-15T21:55:02.929Z",
+    "updated_at": "2026-08-15T21:57:21.930Z",
+    "screening_outcome": "failed",
+    "screening_answers": [
+      {
+        "key": "tech_exp",
+        "question": "Do you have professional software engineering experience evaluating technical rubrics for elementry level math olympiad?",
+        "answer": [
+          "No"
+        ],
+        "outcome": "reject"
+      }
+    ]
+  },
+  "662e9760-8384-4420-ba45-8fd4b83b59ad": {
+    "id": "jar3va2rt50l27lqeh7x4zji",
+    "opportunity_id": "pvvwd034orh6rf7bhm2hecjw",
+    "status": "screened_out",
+    "participant_id": "a9af388b-2762-47e6-a592-701e8eadf8e1",
+    "created_at": "2026-08-15T21:55:02.929Z",
+    "updated_at": "2026-08-15T21:57:21.930Z",
+    "screening_outcome": "failed",
+    "screening_answers": [
+      {
+        "key": "tech_exp",
+        "question": "Do you have professional software engineering experience evaluating technical rubrics for elementry level math olympiad?",
+        "answer": [
+          "No"
+        ],
+        "outcome": "reject"
+      }
+    ]
+  },
+  "2824b209-c4d3-4b8b-b10a-df6c3ee8a230": {
+    "id": "jar3va2rt50l27lqeh7x4zji",
+    "opportunity_id": "pvvwd034orh6rf7bhm2hecjw",
+    "status": "screened_out",
+    "participant_id": "a9af388b-2762-47e6-a592-701e8eadf8e1",
+    "created_at": "2026-08-15T21:55:02.929Z",
+    "updated_at": "2026-08-15T21:57:21.930Z",
+    "screening_outcome": "failed",
+    "screening_answers": [
+      {
+        "key": "tech_exp",
+        "question": "Do you have professional software engineering experience evaluating technical rubrics for elementry level math olympiad?",
+        "answer": [
+          "No"
+        ],
+        "outcome": "reject"
+      }
+    ]
+  },
+  "4079a6cc-2a51-4d3a-87bb-9fd43d6ce879": {
+    "id": "jar3va2rt50l27lqeh7x4zji",
+    "opportunity_id": "pvvwd034orh6rf7bhm2hecjw",
+    "status": "screened_out",
+    "participant_id": "a9af388b-2762-47e6-a592-701e8eadf8e1",
+    "created_at": "2026-08-15T21:55:02.929Z",
+    "updated_at": "2026-08-15T21:57:21.930Z",
+    "screening_outcome": "failed",
+    "screening_answers": [
+      {
+        "key": "tech_exp",
+        "question": "Do you have professional software engineering experience evaluating technical rubrics for elementry level math olympiad?",
+        "answer": [
+          "No"
+        ],
+        "outcome": "reject"
+      }
+    ]
+  },
+  "711d7bc6-bef5-4b52-b594-3fecf144bae7": {
+    "id": "ahwiuoqa4qxkos6dvsoaq2ur",
+    "opportunity_id": "pvvwd034orh6rf7bhm2hecjw",
+    "status": "screened_out",
+    "participant_id": "c8a59ced-91fc-475f-8a92-97bbd6cb4482",
+    "created_at": "2026-08-15T22:16:35.480Z",
+    "updated_at": "2026-08-15T22:17:03.377Z",
+    "screening_outcome": "failed",
+    "screening_answers": [
+      {
+        "key": "tech_exp",
+        "question": "Do you have professional software engineering experience evaluating technical rubrics for elementry level math olympiad?",
+        "answer": [
+          "No"
+        ],
+        "outcome": "reject"
+      }
+    ]
+  },
+  "mid school math olympiad": {
+    "id": "ahwiuoqa4qxkos6dvsoaq2ur",
+    "opportunity_id": "pvvwd034orh6rf7bhm2hecjw",
+    "status": "screened_out",
+    "participant_id": "c8a59ced-91fc-475f-8a92-97bbd6cb4482",
+    "created_at": "2026-08-15T22:16:35.480Z",
+    "updated_at": "2026-08-15T22:17:03.377Z",
+    "screening_outcome": "failed",
+    "screening_answers": [
+      {
+        "key": "tech_exp",
+        "question": "Do you have professional software engineering experience evaluating technical rubrics for elementry level math olympiad?",
+        "answer": [
+          "No"
+        ],
+        "outcome": "reject"
+      }
+    ]
+  },
+  "65a12c81-f74e-4120-871c-daf5d062b94a": {
+    "id": "ahwiuoqa4qxkos6dvsoaq2ur",
+    "opportunity_id": "pvvwd034orh6rf7bhm2hecjw",
+    "status": "screened_out",
+    "participant_id": "c8a59ced-91fc-475f-8a92-97bbd6cb4482",
+    "created_at": "2026-08-15T22:16:35.480Z",
+    "updated_at": "2026-08-15T22:17:03.377Z",
+    "screening_outcome": "failed",
+    "screening_answers": [
+      {
+        "key": "tech_exp",
+        "question": "Do you have professional software engineering experience evaluating technical rubrics for elementry level math olympiad?",
+        "answer": [
+          "No"
+        ],
+        "outcome": "reject"
+      }
+    ]
+  },
+  "elementry math olympiad 10 quesitons": {
+    "id": "ahwiuoqa4qxkos6dvsoaq2ur",
+    "opportunity_id": "pvvwd034orh6rf7bhm2hecjw",
+    "status": "screened_out",
+    "participant_id": "c8a59ced-91fc-475f-8a92-97bbd6cb4482",
+    "created_at": "2026-08-15T22:16:35.480Z",
+    "updated_at": "2026-08-15T22:17:03.377Z",
+    "screening_outcome": "failed",
+    "screening_answers": [
+      {
+        "key": "tech_exp",
+        "question": "Do you have professional software engineering experience evaluating technical rubrics for elementry level math olympiad?",
+        "answer": [
+          "No"
+        ],
+        "outcome": "reject"
+      }
+    ]
+  },
+  "6cc07427-4a4a-498a-847f-3e4a57e3e1e9": {
+    "id": "qxasakc83jqhnh8xy8xg3n9o",
+    "opportunity_id": "pvvwd034orh6rf7bhm2hecjw",
+    "status": "screened_out",
+    "participant_id": "94fb4891-3601-4731-8bb0-a87f082bf576",
+    "created_at": "2026-08-15T21:31:40.116Z",
+    "updated_at": "2026-08-15T21:32:16.331Z",
+    "screening_outcome": "failed",
+    "screening_answers": [
+      {
+        "key": "tech_exp",
+        "question": "Do you have professional software engineering experience evaluating technical rubrics for elementry level math olympiad?",
+        "answer": [
+          "No"
+        ],
+        "outcome": "reject"
+      }
+    ]
+  },
+  "math olympiad 10 questions": {
+    "id": "qxasakc83jqhnh8xy8xg3n9o",
+    "opportunity_id": "pvvwd034orh6rf7bhm2hecjw",
+    "status": "screened_out",
+    "participant_id": "94fb4891-3601-4731-8bb0-a87f082bf576",
+    "created_at": "2026-08-15T21:31:40.116Z",
+    "updated_at": "2026-08-15T21:32:16.331Z",
+    "screening_outcome": "failed",
+    "screening_answers": [
+      {
+        "key": "tech_exp",
+        "question": "Do you have professional software engineering experience evaluating technical rubrics for elementry level math olympiad?",
+        "answer": [
+          "No"
+        ],
+        "outcome": "reject"
+      }
+    ]
+  },
+  "5eb6a5e4-e0a8-4018-a17d-9551935112e8": {
+    "id": "qxasakc83jqhnh8xy8xg3n9o",
+    "opportunity_id": "pvvwd034orh6rf7bhm2hecjw",
+    "status": "screened_out",
+    "participant_id": "94fb4891-3601-4731-8bb0-a87f082bf576",
+    "created_at": "2026-08-15T21:31:40.116Z",
+    "updated_at": "2026-08-15T21:32:16.331Z",
+    "screening_outcome": "failed",
+    "screening_answers": [
+      {
+        "key": "tech_exp",
+        "question": "Do you have professional software engineering experience evaluating technical rubrics for elementry level math olympiad?",
+        "answer": [
+          "No"
+        ],
+        "outcome": "reject"
+      }
+    ]
+  },
+  "elementry math olympiad": {
+    "id": "qxasakc83jqhnh8xy8xg3n9o",
+    "opportunity_id": "pvvwd034orh6rf7bhm2hecjw",
+    "status": "screened_out",
+    "participant_id": "94fb4891-3601-4731-8bb0-a87f082bf576",
+    "created_at": "2026-08-15T21:31:40.116Z",
+    "updated_at": "2026-08-15T21:32:16.331Z",
+    "screening_outcome": "failed",
+    "screening_answers": [
+      {
+        "key": "tech_exp",
+        "question": "Do you have professional software engineering experience evaluating technical rubrics for elementry level math olympiad?",
+        "answer": [
+          "No"
+        ],
+        "outcome": "reject"
+      }
+    ]
+  },
+  "52d85e7e-0705-4751-b066-dff1ecf82a45": {
+    "id": "qxasakc83jqhnh8xy8xg3n9o",
+    "opportunity_id": "pvvwd034orh6rf7bhm2hecjw",
+    "status": "screened_out",
+    "participant_id": "94fb4891-3601-4731-8bb0-a87f082bf576",
+    "created_at": "2026-08-15T21:31:40.116Z",
+    "updated_at": "2026-08-15T21:32:16.331Z",
+    "screening_outcome": "failed",
+    "screening_answers": [
+      {
+        "key": "tech_exp",
+        "question": "Do you have professional software engineering experience evaluating technical rubrics for elementry level math olympiad?",
+        "answer": [
+          "No"
+        ],
+        "outcome": "reject"
+      }
+    ]
+  }
+}

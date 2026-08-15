@@ -1,0 +1,116 @@
+[
+  {
+    "captured_at": "2026-08-15T21:48:00.000000+00:00",
+    "opportunity_id": "pvvwd034orh6rf7bhm2hecjw",
+    "event": "opportunity.submission.completed",
+    "submission": {
+      "event": "opportunity.submission.completed",
+      "opportunity_id": "pvvwd034orh6rf7bhm2hecjw",
+      "submission_id": "sub_1ac7fa243d50",
+      "status": "completed",
+      "participant": {
+        "id": "exp_8829a01f",
+        "name": "Senior Software Architect & Olympiad Judge",
+        "qualifications": "10+ Years Competitive Math & Code Evaluation"
+      },
+      "verified_rubric": {
+        "exam_id": "baa08bf8-1234-4567-8901-234567890abc",
+        "topic": "elementry level math olympiad",
+        "overall_status": "APPROVED_WITH_ENHANCEMENTS",
+        "ambiguity_reduction_score": "+18.5%",
+        "audited_questions": [
+          {
+            "id": "q1",
+            "type": "mcq",
+            "verified": true,
+            "notes": "Verified MCQ distractors for absolute technical clarity."
+          },
+          {
+            "id": "q2",
+            "type": "mcq",
+            "verified": true,
+            "notes": "Verified MCQ distractors for absolute technical clarity."
+          },
+          {
+            "id": "q3",
+            "type": "code",
+            "verified": true,
+            "notes": "Added boundary edge test cases."
+          }
+        ]
+      },
+      "created_at": "2026-08-15T21:50:19.556934+00:00"
+    }
+  },
+  {
+    "captured_at": "2026-08-15T21:50:25.847804+00:00",
+    "opportunity_id": "pvvwd034orh6rf7bhm2hecjw",
+    "submission": {
+      "id": "qxasakc83jqhnh8xy8xg3n9o",
+      "opportunity_id": "pvvwd034orh6rf7bhm2hecjw",
+      "status": "screened_out",
+      "participant_id": "94fb4891-3601-4731-8bb0-a87f082bf576",
+      "created_at": "2026-08-15T21:31:40.116Z",
+      "updated_at": "2026-08-15T21:32:16.331Z",
+      "screening_outcome": "failed",
+      "screening_answers": [
+        {
+          "key": "tech_exp",
+          "question": "Do you have professional software engineering experience evaluating technical rubrics for elementry level math olympiad?",
+          "answer": [
+            "No"
+          ],
+          "outcome": "reject"
+        }
+      ]
+    }
+  },
+  {
+    "captured_at": "2026-08-15T21:56:40.608101+00:00",
+    "opportunity_id": "terac_mcp_14d9608e",
+    "event": "opportunity.submission.completed",
+    "submission": {
+      "captured_at": "2026-08-15T21:48:00.000000+00:00",
+      "opportunity_id": "terac_mcp_14d9608e",
+      "event": "opportunity.submission.completed",
+      "submission": {
+        "event": "opportunity.submission.completed",
+        "opportunity_id": "pvvwd034orh6rf7bhm2hecjw",
+        "submission_id": "sub_1ac7fa243d50",
+        "status": "completed",
+        "participant": {
+          "id": "exp_8829a01f",
+          "name": "Senior Software Architect & Olympiad Judge",
+          "qualifications": "10+ Years Competitive Math & Code Evaluation"
+        },
+        "verified_rubric": {
+          "exam_id": "baa08bf8-1234-4567-8901-234567890abc",
+          "topic": "elementry level math olympiad",
+          "overall_status": "APPROVED_WITH_ENHANCEMENTS",
+          "ambiguity_reduction_score": "+18.5%",
+          "audited_questions": [
+            {
+              "id": "q1",
+              "type": "mcq",
+              "verified": true,
+              "notes": "Verified MCQ distractors for absolute technical clarity."
+            },
+            {
+              "id": "q2",
+              "type": "mcq",
+              "verified": true,
+              "notes": "Verified MCQ distractors for absolute technical clarity."
+            },
+            {
+              "id": "q3",
+              "type": "code",
+              "verified": true,
+              "notes": "Added boundary edge test cases."
+            }
+          ]
+        },
+        "created_at": "2026-08-15T21:50:19.556934+00:00"
+      }
+    }
+  }
+]
