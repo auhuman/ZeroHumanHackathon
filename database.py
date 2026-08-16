@@ -54,46 +54,89 @@ class Submission(BaseModel):
     submitted_at: str = Field(default_factory=lambda: datetime.now(timezone.utc).isoformat())
     execution_time_ms: int = 0
 
+import json
+import os
+
 class Database:
     def __init__(self):
+        self.storage_file = os.path.join(os.path.dirname(__file__), "db_storage.json")
         self.exams: Dict[str, Exam] = {}
         self.allowlist: List[AllowlistEntry] = []
         self.submissions: Dict[str, List[Submission]] = {}  # exam_id -> list of Submissions
         self.total_revenue_cents: int = 0
+        self._load()
+
+    def _save(self):
+        try:
+            data = {
+                "exams": {k: v.model_dump() for k, v in self.exams.items()},
+                "allowlist": [e.model_dump() for e in self.allowlist],
+                "submissions": {k: [s.model_dump() for s in v] for k, v in self.submissions.items()},
+                "total_revenue_cents": self.total_revenue_cents
+            }
+            with open(self.storage_file, "w", encoding="utf-8") as f:
+                json.dump(data, f, indent=2)
+        except Exception as e:
+            print(f"[Database Save Exception]: {e}")
+
+    def _load(self):
+        if not os.path.exists(self.storage_file):
+            return
+        try:
+            with open(self.storage_file, "r", encoding="utf-8") as f:
+                data = json.load(f)
+            if "exams" in data:
+                self.exams = {k: Exam(**v) for k, v in data["exams"].items()}
+            if "allowlist" in data:
+                self.allowlist = [AllowlistEntry(**e) for e in data["allowlist"]]
+            if "submissions" in data:
+                self.submissions = {k: [Submission(**s) for s in v] for k, v in data["submissions"].items()}
+            if "total_revenue_cents" in data:
+                self.total_revenue_cents = data["total_revenue_cents"]
+        except Exception as e:
+            print(f"[Database Load Exception]: {e}")
 
     def create_exam(self, exam: Exam) -> Exam:
         self.exams[exam.id] = exam
+        self._save()
         return exam
 
     def get_exam(self, exam_id: str) -> Optional[Exam]:
+        if exam_id not in self.exams:
+            self._load()
         return self.exams.get(exam_id)
 
     def list_exams(self) -> List[Exam]:
+        self._load()
         return list(self.exams.values())
 
     def update_exam(self, exam: Exam) -> Exam:
         self.exams[exam.id] = exam
+        self._save()
         return exam
 
     def add_to_allowlist(self, entry: AllowlistEntry) -> AllowlistEntry:
         self.allowlist.append(entry)
         self.total_revenue_cents += 1500
+        self._save()
         return entry
 
     def is_allowlisted(self, exam_id: str, candidate_token: str) -> Optional[AllowlistEntry]:
+        self._load()
         for entry in self.allowlist:
             if entry.exam_id == exam_id and entry.candidate_token == candidate_token:
                 return entry
-
         return None
 
     def add_submission(self, submission: Submission) -> Submission:
         if submission.exam_id not in self.submissions:
             self.submissions[submission.exam_id] = []
         self.submissions[submission.exam_id].append(submission)
+        self._save()
         return submission
 
     def get_leaderboard(self, exam_id: str) -> List[Dict]:
+        self._load()
         subs = self.submissions.get(exam_id, [])
         best_subs = {}
         for s in subs:
