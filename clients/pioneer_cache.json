@@ -1585,5 +1585,110 @@
         "rubric": "(n-2)*180 = 4*180 = 720 degrees"
       }
     ]
+  },
+  "elementry science olympiad exam 10 questions_intermediate_15": {
+    "title": "Elementary Science Olympiad Exam",
+    "questions": [
+      {
+        "id": "q1",
+        "prompt": "Which planet in our solar system has the most moons?",
+        "type": "mcq",
+        "options": [
+          "A) Earth",
+          "B) Mars",
+          "C) Saturn",
+          "D) Venus"
+        ],
+        "correct_answer": "C",
+        "rubric": "Correct answer is C) Saturn, which has over 140 confirmed moons."
+      },
+      {
+        "id": "q2",
+        "prompt": "What is the process by which plants make their own food using sunlight called?",
+        "type": "short_answer",
+        "correct_answer": "Photosynthesis",
+        "rubric": "Award full marks for 'photosynthesis'. Partial credit for describing the process correctly."
+      },
+      {
+        "id": "q3",
+        "prompt": "Which of the following is a physical change?",
+        "type": "mcq",
+        "options": [
+          "A) Burning wood",
+          "B) Rusting iron",
+          "C) Melting ice",
+          "D) Baking a cake"
+        ],
+        "correct_answer": "C",
+        "rubric": "Melting ice is a physical change because no new substance is formed."
+      },
+      {
+        "id": "q4",
+        "prompt": "What is the hardest natural substance on Earth?",
+        "type": "short_answer",
+        "correct_answer": "Diamond",
+        "rubric": "Accept 'diamond' as the correct answer."
+      },
+      {
+        "id": "q5",
+        "prompt": "Which gas do humans breathe in to stay alive?",
+        "type": "mcq",
+        "options": [
+          "A) Carbon dioxide",
+          "B) Nitrogen",
+          "C) Oxygen",
+          "D) Hydrogen"
+        ],
+        "correct_answer": "C",
+        "rubric": "Oxygen is essential for human respiration."
+      },
+      {
+        "id": "q6",
+        "prompt": "What force pulls objects toward the center of the Earth?",
+        "type": "short_answer",
+        "correct_answer": "Gravity",
+        "rubric": "Accept 'gravity' or 'gravitational force'."
+      },
+      {
+        "id": "q7",
+        "prompt": "Which part of the plant absorbs water and nutrients from the soil?",
+        "type": "mcq",
+        "options": [
+          "A) Leaves",
+          "B) Stem",
+          "C) Flowers",
+          "D) Roots"
+        ],
+        "correct_answer": "D",
+        "rubric": "Roots absorb water and minerals from the soil."
+      },
+      {
+        "id": "q8",
+        "prompt": "What are the three states of matter?",
+        "type": "short_answer",
+        "correct_answer": "Solid, liquid, and gas",
+        "rubric": "Full marks for naming all three: solid, liquid, gas. Partial credit for two correct."
+      },
+      {
+        "id": "q9",
+        "prompt": "Which animal group do frogs belong to?",
+        "type": "mcq",
+        "options": [
+          "A) Reptiles",
+          "B) Amphibians",
+          "C) Mammals",
+          "D) Fish"
+        ],
+        "correct_answer": "B",
+        "rubric": "Frogs are amphibians, living both in water and on land."
+      },
+      {
+        "id": "q10",
+        "prompt": "What instrument is used to measure temperature?",
+        "type": "short_answer",
+        "correct_answer": "Thermometer",
+        "rubric": "Accept 'thermometer' as the correct answer."
+      }
+    ]
   }
 }

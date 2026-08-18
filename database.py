@@ -96,6 +96,17 @@ class Database:
         except Exception as e:
             print(f"[Database Load Exception]: {e}")
 
+    def clear_all(self):
+        self.exams = {}
+        self.allowlist = []
+        self.submissions = {}
+        self.total_revenue_cents = 0
+        if os.path.exists(self.storage_file):
+            try:
+                os.remove(self.storage_file)
+            except Exception:
+                pass
+
     def create_exam(self, exam: Exam) -> Exam:
         self.exams[exam.id] = exam
         self._save()

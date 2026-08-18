@@ -38,7 +38,11 @@ async def serve_organizer_dashboard():
     index_path = os.path.join(organizer_dir, "index.html")
     if os.path.exists(index_path):
         return FileResponse(index_path)
-    return HTMLResponse("<h1>Organizer Dashboard loading...</h1>")
+@router.post("/api/exams/clear")
+async def clear_database():
+    """Clears all exams, submissions, and allowlists from memory and storage."""
+    db.clear_all()
+    return {"status": "success", "message": "Database reset to empty state."}
 
 @router.get("/api/exams/{exam_id}/presentation")
 async def get_exam_presentation(exam_id: str):

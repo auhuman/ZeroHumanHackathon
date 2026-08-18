@@ -8,19 +8,33 @@ from clients.logger import log_integration
 
 class TeracClient:
     def __init__(self, api_key: str = None):
+        if not api_key:
+            from dotenv import load_dotenv
+            load_dotenv()
         self.api_key = api_key or os.getenv("TERAC_API_KEY", "")
         self.mcp_url = "https://terac.com/api/mcp"
         self.rest_url = "https://terac.com/api/external/v2"
 
-    async def _call_mcp_tool(self, tool_name: str, arguments: Dict[str, Any]) -> Dict[str, Any]:
+    async def _call_mcp_tool(self, tool_name: str, arguments: Dict[str, Any], max_retries: int = 3) -> Dict[str, Any]:
         """
         Executes a JSON-RPC tool call on Terac MCP Server (https://terac.com/api/mcp).
+        Includes retry logic for transient rate limit 401/429 responses.
         """
+        import asyncio
+
+        if not self.api_key:
+            from dotenv import load_dotenv
+            load_dotenv()
+            self.api_key = os.getenv("TERAC_API_KEY", "")
+
         headers = {
-            "Authorization": f"Bearer {self.api_key}",
             "Accept": "application/json, text/event-stream",
             "Content-Type": "application/json"
         }
+        if self.api_key:
+            headers["x-api-key"] = self.api_key
+            headers["Authorization"] = f"Bearer {self.api_key}"
+
         payload = {
             "jsonrpc": "2.0",
             "id": int(uuid.uuid4().int % 1000000),
@@ -31,21 +45,118 @@ class TeracClient:
             }
         }
 
-        async with httpx.AsyncClient(timeout=30.0) as client:
-            resp = await client.post(self.mcp_url, headers=headers, json=payload)
+        for attempt in range(max_retries):
+            async with httpx.AsyncClient(timeout=30.0) as client:
+                resp = await client.post(self.mcp_url, headers=headers, json=payload)
+                resp_body = resp.text
+
+                # If rate limited (often returns 401/429 during bursts), back off and retry
+                if resp.status_code in [401, 429, 502, 503] and attempt < max_retries - 1:
+                    await asyncio.sleep(1.0 * (attempt + 1))
+                    continue
+
+                for line in resp_body.splitlines():
+                    if line.startswith("data:"):
+                        try:
+                            resp_data = json.loads(line[5:])
+                            log_integration(f"Terac MCP Server [{tool_name}]", "POST", self.mcp_url, headers, payload, resp.status_code, resp.headers, resp_data)
+                            return resp_data
+                        except Exception:
+                            pass
+
+                log_integration(f"Terac MCP Server [{tool_name}]", "POST", self.mcp_url, headers, payload, resp.status_code, resp.headers, resp_body)
+                return {"status": "executed", "raw": resp_body}
+
+
+    async def delete_all_opportunities(self, limit_per_page: int = 100) -> Dict[str, Any]:
+        """
+        Retrieves all opportunities in the Terac account via Terac MCP server ('terac_list_opportunities')
+        and deletes (or stops) each opportunity using 'terac_delete_opportunity' / 'terac_stop_opportunity'.
+
+        Returns a summary report with counts of deleted, stopped, and failed opportunities.
+        """
+        import asyncio
+
+        deleted_ids = []
+        stopped_ids = []
+        failed_ids = []
+
+        cursor = None
+        has_more = True
+
+        while has_more:
+            args = {"limit": limit_per_page}
+            if cursor:
+                args["cursor"] = cursor
+
+            resp = await self._call_mcp_tool("terac_list_opportunities", args)
             
-            resp_body = resp.text
-            for line in resp_body.splitlines():
-                if line.startswith("data:"):
+            result = resp.get("result", {})
+            structured = result.get("structuredContent", {})
+            
+            opps = structured.get("data", [])
+            pagination = structured.get("pagination", {})
+            
+            if not opps:
+                content = result.get("content", [])
+                if content and isinstance(content, list):
+                    text_res = content[0].get("text", "")
                     try:
-                        resp_data = json.loads(line[5:])
-                        log_integration(f"Terac MCP Server [{tool_name}]", "POST", self.mcp_url, headers, payload, resp.status_code, resp.headers, resp_data)
-                        return resp_data
+                        parsed = json.loads(text_res)
+                        opps = parsed.get("data", [])
+                        pagination = parsed.get("pagination", {})
                     except Exception:
                         pass
 
-            log_integration(f"Terac MCP Server [{tool_name}]", "POST", self.mcp_url, headers, payload, resp.status_code, resp.headers, resp_body)
-            return {"status": "executed", "raw": resp_body}
+            if not opps:
+                break
+
+            for opp in opps:
+                opp_id = opp.get("id")
+                status = opp.get("status", "")
+                if not opp_id:
+                    continue
+
+                try:
+                    if status in ["draft", "creating"]:
+                        await self._call_mcp_tool("terac_delete_opportunity", {"opportunityId": opp_id})
+                        deleted_ids.append(opp_id)
+                        print(f"[TeracClient] Deleted draft opportunity: {opp_id}")
+                    elif status in ["active", "paused"]:
+                        await self._call_mcp_tool("terac_stop_opportunity", {"opportunityId": opp_id})
+                        stopped_ids.append(opp_id)
+                        print(f"[TeracClient] Stopped active/paused opportunity: {opp_id}")
+                        try:
+                            await self._call_mcp_tool("terac_delete_opportunity", {"opportunityId": opp_id})
+                        except Exception:
+                            pass
+                    else:
+                        await self._call_mcp_tool("terac_delete_opportunity", {"opportunityId": opp_id})
+                        deleted_ids.append(opp_id)
+                        print(f"[TeracClient] Deleted opportunity ({status}): {opp_id}")
+                except Exception as e:
+                    print(f"[TeracClient] Failed to delete/stop opportunity {opp_id}: {e}")
+                    failed_ids.append({"id": opp_id, "error": str(e)})
+
+                await asyncio.sleep(0.1)
+
+            has_more = pagination.get("has_more", False)
+            cursor = pagination.get("next_cursor")
+            if not cursor:
+                break
+
+        summary = {
+            "deleted_count": len(deleted_ids),
+            "stopped_count": len(stopped_ids),
+            "failed_count": len(failed_ids),
+            "deleted_ids": deleted_ids,
+            "stopped_ids": stopped_ids,
+            "failed_details": failed_ids
+        }
+        print(f"[TeracClient] Clean up complete: {summary}")
+        return summary
+
+
 
     async def submit_for_review(self, exam: Exam) -> str:
         """

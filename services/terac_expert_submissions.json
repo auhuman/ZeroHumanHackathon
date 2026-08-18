@@ -1,0 +1,23 @@
+{
+  "status": "COMPLETED",
+  "task_id": "tsk_8f9c2b1a4e",
+  "opportunity_id": "opp_7734bc90",
+  "completed_at": "2026-08-15T14:30:00Z",
+  "participant": {
+    "id": "prt_991283xa",
+    "verified_expert": true,
+    "domain": "Software Engineering"
+  },
+  "verification": {
+    "method": "ai_moderated_screen",
+    "score": 0.98,
+    "provenance_checked": true
+  },
+  "output": {
+    "response_text": "[{\"id\": \"q1\", \"type\": \"mcq\", \"prompt\": \"What is the sum of the first 10 positive integers?\", \"options\": [\"A) 45\", \"B) 50\", \"C) 55\", \"D) 60\"], \"correct_answer\": \"C) 55\", \"rubric\": \"Correct answer: C) 55. Formula n(n+1)/2 = 10*11/2 = 55.\", \"test_cases\": []}, {\"id\": \"q2\", \"type\": \"mcq\", \"prompt\": \"If a rectangle has length 8 and width 5, what is its perimeter?\", \"options\": [\"A) 13\", \"B) 26\", \"C) 40\", \"D) 20\"], \"correct_answer\": \"B) 26\", \"rubric\": \"Perimeter = 2(l+w) = 2(8+5) = 26.\", \"test_cases\": []}, {\"id\": \"q3\", \"type\": \"short_answer\", \"prompt\": \"What is the smallest prime number greater than 20?\", \"options\": null, \"correct_answer\": \"23\", \"rubric\": \"Award full marks for 23.\", \"test_cases\": []}, {\"id\": \"q4\", \"type\": \"mcq\", \"prompt\": \"How many diagonals does a hexagon have?\", \"options\": [\"A) 6\", \"B) 9\", \"C) 12\", \"D) 15\"], \"correct_answer\": \"B) 9\", \"rubric\": \"n(n-3)/2 = 6*3/2 = 9.\", \"test_cases\": []}, {\"id\": \"q5\", \"type\": \"short_answer\", \"prompt\": \"What is the value of 3! + 4! ?\", \"options\": null, \"correct_answer\": \"30\", \"rubric\": \"3! = 6, 4! = 24, sum = 30.\", \"test_cases\": []}, {\"id\": \"q6\", \"type\": \"mcq\", \"prompt\": \"If x + 5 = 12, what is the value of 2x?\", \"options\": [\"A) 7\", \"B) 14\", \"C) 12\", \"D) 24\"], \"correct_answer\": \"B) 14\", \"rubric\": \"x = 7, so 2x = 14.\", \"test_cases\": []}, {\"id\": \"q7\", \"type\": \"short_answer\", \"prompt\": \"What is the greatest common divisor (GCD) of 24 and 36?\", \"options\": null, \"correct_answer\": \"12\", \"rubric\": \"GCD(24,36) = 12.\", \"test_cases\": []}, {\"id\": \"q8\", \"type\": \"mcq\", \"prompt\": \"A number when divided by 7 gives remainder 3. What is the remainder when twice the number is divided by 7?\", \"options\": [\"A) 3\", \"B) 6\", \"C) 0\", \"D) 1\"], \"correct_answer\": \"B) 6\", \"rubric\": \"2*3 mod 7 = 6.\", \"test_cases\": []}]",
+    "structured_labels": {
+      "sentiment": "neutral",
+      "validity": "approved"
+    }
+  }
+}
